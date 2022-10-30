@@ -111,7 +111,6 @@ func masterFromPreMasterSecret(version uint16, suite *cipherSuite, preMasterSecr
 	seed = append(seed, serverRandom...)
 
 	masterSecret := make([]byte, masterSecretLength)
-    fmt.Printf("masterSecret is %x, preMasterSecret is %x\n")
 	prfForVersion(version, suite)(masterSecret, preMasterSecret, masterSecretLabel, seed)
 	return masterSecret
 }

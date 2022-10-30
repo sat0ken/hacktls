@@ -519,12 +519,15 @@ func (hc *halfConn) encrypt(record, payload []byte, rand io.Reader) ([]byte, err
 			n := len(payload) + 1 + c.Overhead()
 			record[3] = byte(n >> 8)
 			record[4] = byte(n)
-
+			fmt.Printf("nonce is %x, plaintext is %x, additionalData is %x\n",
+				nonce, record[recordHeaderLen:], record[:recordHeaderLen])
 			record = c.Seal(record[:recordHeaderLen],
 				nonce, record[recordHeaderLen:], record[:recordHeaderLen])
 		} else {
 			additionalData := append(hc.scratchBuf[:0], hc.seq[:]...)
 			additionalData = append(additionalData, record[:recordHeaderLen]...)
+			fmt.Printf("nonce is %x, plaintext is %x, additionalData is %x\n",
+				nonce, payload, additionalData)
 			record = c.Seal(record, nonce, payload, additionalData)
 		}
 	case cbcMode:

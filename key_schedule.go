@@ -8,6 +8,7 @@ import (
 	"crypto/elliptic"
 	"crypto/hmac"
 	"errors"
+	"fmt"
 	"hash"
 	"io"
 	"math/big"
@@ -119,6 +120,8 @@ func generateECDHEParameters(rand io.Reader, curveID CurveID) (ecdheParameters, 
 		if err != nil {
 			return nil, err
 		}
+		fmt.Printf("generat ECDHE Key, public key is %x, private key is %x\n",
+			publicKey, privateKey)
 		return &x25519Parameters{privateKey: privateKey, publicKey: publicKey}, nil
 	}
 
